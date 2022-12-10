@@ -27,11 +27,12 @@ def kakaoApi(request):
     # kakao 음식 영역 구분 START
     url = "https://1f000b02-5fac-4dcc-9c12-b6e09a06d288.api.kr-central-1.kakaoi.io/ai/vision/24a42b80c90a4df8934dbfada31faa4d"
 
-    imgname = 'image.png'
-    imgfile = Image.open(settings.MEDIA_ROOT+f'./{imgname}')
+    imgname = 'image_test.png'
+    # imgfile = Image.open(settings.MEDIA_ROOT+f'/{imgname}')
+    imgfile = cv2.imread(settings.MEDIA_ROOT+f'/{imgname}', 1)
 
     files = [
-        ('image', (f'{imgname}', open(settings.MEDIA_ROOT+f'./{imgname}', 'rb'), 'image/png'))
+        ('image', (f'{imgname}', open(settings.MEDIA_ROOT+f'/{imgname}', 'rb'), 'image/png'))
     ]
 
     headers = {
@@ -40,26 +41,26 @@ def kakaoApi(request):
     }
     response = requests.request("POST", url, headers=headers, files=files)
     json_object = json.loads(response.text)['result']
+    print(json_object)
     result = []
 
-    height = []
     for i in range(len(json_object)):
-        height.append(json_object[i]['h'])
-    max_height = max(height)   
-
-    for i in range(len(json_object)):
-
         leftX = json_object[i]['x']
-        leftY = json_object[i]['y']
+        leftY = json_object[i]['y'] + json_object[i]['h']
         rightX = json_object[i]['x'] + json_object[i]['w']
-        rightY = json_object[i]['y'] + max_height * 2
+        rightY = json_object[i]['y'] + json_object[i]['h'] + (json_object[i]['h'] * 0.5)
 
-        # 음식영역에 따른 이미지 crop
-        cropped_img = imgfile.crop((leftX, leftY, rightX, rightY))
-        cropped_img.show()
+        #이미지 크롭
+        cropped_img = imgfile[int(leftY):int(rightY), int(leftX):int(rightX)]
 
+        # 그레이스케일 처리
+        img_gray = cv2.cvtColor(cropped_img, cv2.COLOR_BGR2GRAY)
+
+        cv2.imshow('Original', img_gray)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
         # crop 된 이미지를 tesseract ocr 처리
-        result_ocr = pytesseract.image_to_string(cropped_img, lang='kor')
+        result_ocr = pytesseract.image_to_string(img_gray, lang='kor')
 
         # ocr 결과에서 공백 제거하고 한글과 숫자 구분
         result_no_space = re.sub(r"[\s]", "", result_ocr)
