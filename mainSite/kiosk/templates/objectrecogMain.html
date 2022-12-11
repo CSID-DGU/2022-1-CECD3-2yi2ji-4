@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/kiosk.css' %}" />
+
+<a href="{% url 'kiosk:kakaoApi' %}">kakaoApi</a>
+<a href="{% url 'kiosk:sttMicApi' %}">sttMicApi</a>
+<a href="{% url 'kiosk:ttsApi' %}">ttsApi</a>
+<a href="{% url 'kiosk:roi' %}">ROI</a>
+<br />
+{{result}}
+<!-- 분기처리하기 -->
+<audio controls>
+  <source src="{% static 'tts.mp3' %}" type="audio/mp3" autoplay />
+</audio>
+
+{% endblock %}
