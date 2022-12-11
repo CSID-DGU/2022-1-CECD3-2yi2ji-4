@@ -1,0 +1,67 @@
+{% extends 'base.html' %} 
+{% load static %} 
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="{% static 'barcode/style.css' %}" />
+<script type="text/javascript" src="{% static 'barcode/jquery.js' %}"></script>
+<script type="text/javascript" src="{% static 'barcode/barcode.js' %}"></script>
+
+
+
+<script type="text/javascript">
+
+var sound = new Audio("{% static 'barcode/barcode.wav' %}");
+var bar = 1;
+
+$(document).ready(function() {
+
+	barcode.config.start = 0.1;
+	barcode.config.end = 0.9;
+	barcode.config.video = '#barcodevideo';
+	barcode.config.canvas = '#barcodecanvas';
+	barcode.config.canvasg = '#barcodecanvasg';
+	barcode.setHandler(function(barcode) {
+		$('#result').html(barcode);
+		bar = barcode
+	});
+	barcode.init();
+
+	$('#result').bind('DOMSubtreeModified', function(e) {
+		sound.play();
+	});
+
+});
+
+function sendToken(){
+        $.ajax({
+          type: "POST",
+          url: "{% url 'object:send' %}",
+          headers: {
+            "X-CSRFTOKEN": "{{ csrf_token }}",
+          },
+          data: {'result':bar}
+        });
+	}
+
+
+</script>
+
+</head>
+<body>
+
+<div id="barcode">
+	<video id="barcodevideo" autoplay playsinline></video>
+	<canvas id="barcodecanvasg" ></canvas>
+</div>
+<canvas id="barcodecanvas" ></canvas>
+<div id="result"></div>
+
+<button onclick="sendToken(); return false;">전송</button>
+
+</body>
+</html>
+
+{% endblock %}

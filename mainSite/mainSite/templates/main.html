@@ -7,8 +7,6 @@
 <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
 
 <a id="btn1" href="{% url 'kiosk:index' %}">카메라</a>
-<a id="btn2" href="{% url 'kiosk:index' %}">물체인식</a>
-
-<!-- <img src="{% static 'images/image.png' %}" alt="웨않되" /> -->
+<a id="btn2" href="{% url 'object:barcode' %}">물체인식</a>
 
 {% endblock %}
