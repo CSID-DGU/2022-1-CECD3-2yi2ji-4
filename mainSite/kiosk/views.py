@@ -29,6 +29,10 @@ def kioskImage(request):
     return render(request, 'kioskImage.html')
 
 
+def roiImage(request):
+    return render(request, 'roiImage.html')
+
+
 def test(request):
 
     result = [{'id': 0, 'position': (786, 547, 1004, 871.0), 'title': '치즈와퍼', 'price': '4100'}
@@ -68,7 +72,7 @@ def kakaoApi(request):
     # kakao 음식 영역 구분 START
     url = "https://1f000b02-5fac-4dcc-9c12-b6e09a06d288.api.kr-central-1.kakaoi.io/ai/vision/24a42b80c90a4df8934dbfada31faa4d"
 
-    imgname = 'image_test.png'
+    imgname = 'kiosk.png'
     # imgfile = Image.open(settings.MEDIA_ROOT+f'/{imgname}')
     imgfile = cv2.imread(settings.MEDIA_ROOT+f'/{imgname}', 1)
 
@@ -82,14 +86,18 @@ def kakaoApi(request):
     }
     response = requests.request("POST", url, headers=headers, files=files)
     json_object = json.loads(response.text)['result']
-    print(json_object)
+    # print(json_object)
     result = []
 
     for i in range(len(json_object)):
         leftX = json_object[i]['x']
-        leftY = json_object[i]['y'] + json_object[i]['h']
+        leftY = json_object[i]['y']
         rightX = json_object[i]['x'] + json_object[i]['w']
         rightY = json_object[i]['y'] + json_object[i]['h'] + (json_object[i]['h'] * 0.5)
+        # leftX = json_object[i]['x']
+        # leftY = json_object[i]['y'] + json_object[i]['h']
+        # rightX = json_object[i]['x'] + json_object[i]['w']
+        # rightY = json_object[i]['y'] + json_object[i]['h'] + (json_object[i]['h'] * 0.5)
 
         #이미지 크롭
         cropped_img = imgfile[int(leftY):int(rightY), int(leftX):int(rightX)]
@@ -108,7 +116,7 @@ def kakaoApi(request):
         final = result_no_space.rstrip('원')
         title = re.sub(r"[^\uAC00-\uD7A3]", "", final)
         price = re.sub(r"[^0-9]", "", final)
-        print("title : " + title + ", price : " + price)
+        print("title : " + title + ", price : " + price + ", leftX : " + str(leftX) + ", leftY : " + str(leftY) + ", rightX : " + str(rightX) + ", rightY : " + str(rightY)+ ", w : " + str(json_object[i]['w']) + ", h : " + str(json_object[i]['h']))
 
         result.append({'id': i,
                        'left-x': leftX,
@@ -189,10 +197,11 @@ def ttsApi(request):
 
 
 def roi(request):
-    img = cv2.imread('objectRecog/images/testImage.png')
+    img = cv2.imread(settings.MEDIA_ROOT+f'/kiosk.png')
 
-    (x, y), (w, h) = (54, 545), (244, 242)
-
+    # (x, y), (w, h) = (54, 545), (244, 242)
+    (x, y), (w, h) = (407, 947), (430, 270)
+    # leftX: 407, leftY: 947, rightX: 684, rightY: 1166.0
     roi = img[y:y + h, x:x + w]
 
     cv2.rectangle(roi, (0, 0), (h - 1, w - 1), (56, 185, 247), -1)
