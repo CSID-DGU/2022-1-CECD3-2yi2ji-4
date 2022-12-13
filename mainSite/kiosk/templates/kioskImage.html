@@ -9,7 +9,7 @@
       setTimeout(function play() {
         var audio = document.getElementById("audio");
         audio.play();
-      }, 1000);
+      }, 3000);
 
     </script>
 </head>
@@ -22,7 +22,11 @@
     </a>
 
     <audio id="audio" src="{% static 'tts.mp3' %}"/>
+
   </div>
+
+
+      <a href="{% url 'kiosk:roiImage' %}" style="text-decoration-line: none; color: red; font-size: 50px; -webkit-tap-highlight-color: transparent; border: none; background: none;">ROI</a>
 
 </body>
 </html>
