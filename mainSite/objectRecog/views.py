@@ -18,12 +18,17 @@ def send(request):
         response = requests.get(url)
         contents = response.text
         dic = json.loads(contents)
+        resultString = ""
 
         if (dic['C005']['total_count']=='0'):
             engine = pyttsx3.init()
             if (engine._inLoop):
                 engine.endLoop()
-            engine.say('입력하신 바코드의 정보를 찾을 수 없습니다.')
+
+            engine.setProperty('rate', 110)
+            resultString = "입력하신 바코드의 정보를 찾을 수 없습니다."
+            engine.say(resultString)
+            engine.save_to_file(resultString, 'static/barcode.mp3')
             engine.runAndWait()
             engine = None
 
@@ -33,10 +38,10 @@ def send(request):
             engine = pyttsx3.init()
             if (engine._inLoop):
                 engine.endLoop()
-            engine.say('입력하신 바코드의' + ',' +
-            '제품 명은 '+result['PRDLST_NM'] + ',' +
-            '제품 종류는 '+ result['PRDLST_DCNM'] + ',' +
-            '제조사는 '+ BSSH_NM + ',' +
-            '입니다')
+
+            engine.setProperty('rate', 110)
+            resultString = '입력하신 바코드의 제품 명은 '+result['PRDLST_NM'] + ', 제품 종류는 '+ result['PRDLST_DCNM'] + ', 제조사는 '+ BSSH_NM + ', 입니다'
+            engine.say(resultString)
+            engine.save_to_file(resultString, 'static/barcode.mp3')
             engine.runAndWait()
         return render(request, 'barcode.html')

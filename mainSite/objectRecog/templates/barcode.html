@@ -47,19 +47,29 @@ function sendToken(){
 	}
 
 
+function play() {
+	var audio = document.getElementById("audio");
+	audio.play();
+}
+
 </script>
 
 </head>
 <body>
 
-<div id="barcode">
-	<video id="barcodevideo" autoplay playsinline></video>
-	<canvas id="barcodecanvasg" ></canvas>
-</div>
-<canvas id="barcodecanvas" ></canvas>
-<div id="result"></div>
+	<div id="barcode" style="width:100%; height:100%; margin:0 auto; text-align:center;">
+		<video id="barcodevideo" autoplay playsinline></video>
+		<canvas id="barcodecanvasg"></canvas>
+	</div>
 
-<button onclick="sendToken(); return false;">전송</button>
+	<canvas id="barcodecanvas" ></canvas>
+	<div id="result"></div>
+
+	<a onclick="sendToken();" style="text-decoration-line: none; color: red; font-size: 50px; -webkit-tap-highlight-color: transparent;">전송을 클릭하면 바코드 값이 넘어갑니다.</a>
+	<a onclick="play();" style="text-decoration-line: none; color: black; font-size: 50px; -webkit-tap-highlight-color: transparent;">플레이</a>
+
+
+    <audio id="audio" src="{% static 'barcode.mp3' %}"/>
 
 </body>
 </html>
