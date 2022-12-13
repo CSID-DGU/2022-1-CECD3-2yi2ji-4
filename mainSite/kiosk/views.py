@@ -53,7 +53,7 @@ def test(request):
     engine.say(resultString)
     engine.save_to_file(resultString, 'static/tts.mp3')
     engine.runAndWait()
-    return render(request, 'kioskImage.html')
+    return redirect('kiosk:kioskImage')
 
 
 def objectIndex(request):

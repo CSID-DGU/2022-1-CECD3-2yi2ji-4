@@ -1,14 +1,37 @@
-{% extends 'base.html' %}
-<!--  -->
 {% load static %}
-<!--  -->
-{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>kiosk</title>
 
-<a href="{% url 'kiosk:test' %}"><img src="{% static '/images/kiosk.png' %}"/></a>
+    <script>
+      setTimeout(function play() {
+        var audio = document.getElementById("audio");
+        audio.play();
+      }, 1000);
+
+    </script>
+</head>
+<body>
+
+  <div style="width:100%; margin:0 auto; text-align:center;">
+    <!--<a href="{% url 'kiosk:test' %}">  onclick="play();"-->
+    <a href="{% url 'kiosk:test' %}" >
+      <img src="{% static '/images/kiosk.png' %}" style=" max-width:100%; "/>
+    </a>
+
+    <audio id="audio" src="{% static 'tts.mp3' %}"/>
+  </div>
+
+</body>
+</html>
 
 
-<audio controls>
-  <source src="{% static 'tts.mp3' %}" type="audio/mp3" autoplay />
+
+
+<!--
+<audio hidden>
+  <source src="{% static 'tts.mp3' %}" type="audio/mp3" autoplay="autoplay" playsinline />
 </audio>
-
-{% endblock %}
+-->
