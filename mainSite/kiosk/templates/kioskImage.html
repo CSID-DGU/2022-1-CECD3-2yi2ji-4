@@ -4,6 +4,11 @@
 <!--  -->
 {% block content %}
 
-<img src='/media/image_test.png'/>
+<a href="{% url 'kiosk:test' %}"><img src='/media/image_test.png'/></a>
+
+
+<audio controls>
+  <source src="{% static 'tts.mp3' %}" type="audio/mp3" autoplay />
+</audio>
 
 {% endblock %}
