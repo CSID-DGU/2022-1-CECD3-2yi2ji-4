@@ -30,6 +30,33 @@ def kioskImage(request):
     return render(request, 'kioskImage.html')
 
 
+def test(request):
+
+    result = [{'id': 0, 'position': (786, 547, 1004, 871.0), 'title': '치즈와퍼', 'price': '4100'}
+        , {'id': 1, 'position': (57, 198, 286, 538.5), 'title': '불고기와퍼', 'price': '3500'}
+        , {'id': 2, 'position': (422, 199, 645, 536.5), 'title': '통새우와퍼주니어', 'price': '4600'}
+        , {'id': 3, 'position': (64, 903, 290, 1246.5), 'title': '킹치킨버거', 'price': '2800'}
+        , {'id': 4, 'position': (54, 545, 298, 908.0), 'title': '바비큐킹치킨버거', 'price': '4300'}
+        , {'id': 5, 'position': (418, 545, 667, 908.0), 'title': '비프슈림프버거', 'price': '5600'}
+        , {'id': 6, 'position': (768, 901, 1008, 1252.0), 'title': '통새우슈림프버거', 'price': '4700'}
+        , {'id': 7, 'position': (769, 193, 1010, 547.0), 'title': '잔망루피슈림프버거', 'price': '4400'}
+        , {'id': 8, 'position': (380, 879, 713, 1290.0), 'title': '롱치킨버거', 'price': '4200'}]
+
+    resultString = ""
+
+    for i in range(len(result)):
+        resultString += result[i]['title'] + result[i]['price'] + '원,'
+
+    resultString += "원하시는 메뉴를 말해주세요."
+
+    engine = pyttsx3.init()
+    engine.setProperty('rate', 110)
+    engine.say(resultString)
+    engine.save_to_file(resultString, 'static/tts.mp3')
+    engine.runAndWait()
+    return render(request, 'kioskImage.html')
+
+
 def objectIndex(request):
     return render(request, 'objectrecogMain.html')
 
@@ -39,7 +66,6 @@ def roiResult(request):
 
 
 def kakaoApi(request):
-
     # kakao 음식 영역 구분 START
     url = "https://1f000b02-5fac-4dcc-9c12-b6e09a06d288.api.kr-central-1.kakaoi.io/ai/vision/24a42b80c90a4df8934dbfada31faa4d"
 

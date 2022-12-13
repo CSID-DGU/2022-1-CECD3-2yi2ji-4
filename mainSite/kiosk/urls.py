@@ -7,6 +7,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('upload', views.upload, name='upload'),
     path('kioskImage', views.kioskImage, name='kioskImage'),
+    path('test', views.test, name='test'),
     path('testIndex', views.objectIndex, name='objectIndex'),
     path('kakaoApi/', views.kakaoApi, name="kakaoApi"),
     path('sttFileApi/', views.sttFileApi, name="sttFileApi"),
