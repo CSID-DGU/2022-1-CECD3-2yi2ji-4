@@ -21,8 +21,8 @@
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <div id="header">
       <h3>Simple Web Camera</h3>
-      <p>버튼을 클릭 하세요.</p>
-      <button id="camera--trigger">사진촬영</button>
+      <a href="{% url 'kiosk:kioskImage' %}" style="text-decoration-line: none; color: white;">버튼을 클릭해주세요</a>
+      <button id="camera--trigger">키오스크 촬영</button>
     </div>
     <main id="camera">
       <canvas id="camera--sensor"></canvas>
@@ -41,7 +41,7 @@
       const cameraOutput = document.querySelector("#camera--output");
       const cameraSensor = document.querySelector("#camera--sensor");
       const cameraTrigger = document.querySelector("#camera--trigger");
-      // const cameraMedia = document.querySelector("#media_file");
+      const movePage = document.querySelector("#move-page");
 
       function cameraStart() {
         navigator.mediaDevices

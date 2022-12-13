@@ -1,6 +1,6 @@
 import base64
 from django.conf import settings
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import requests
 import json
 import speech_recognition as sr
@@ -15,14 +15,18 @@ def index(request):
 
 
 def upload(request):
-    data = request.POST.__getitem__('data')
-    data = data[22:]
-    path = str(settings.MEDIA_ROOT)
-    filename = 'image.png'
-    image = open(path + '/' + filename, "wb")
-    image.write(base64.b64decode(data))
-    image.close()
-    # answer = {'filename' : filename}
+    # data = request.POST.__getitem__('data')
+    # data = data[22:]
+    # path = str(settings.MEDIA_ROOT)
+    # filename = 'image.png'
+    # image = open(path + '/' + filename, "wb")
+    # image.write(base64.b64decode(data))
+    # image.close()
+
+    return render(request, 'kioskImage.html')
+
+
+def kioskImage(request):
     return render(request, 'kioskImage.html')
 
 
