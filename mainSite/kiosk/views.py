@@ -195,7 +195,7 @@ def roi(request):
 
     roi = img[y:y + h, x:x + w]
 
-    cv2.rectangle(roi, (0, 0), (h - 1, w - 1), (0, 255, 0))
+    cv2.rectangle(roi, (0, 0), (h - 1, w - 1), (56, 185, 247), -1)
     # cv2.imshow("img", img)
     cv2.imwrite('static/images/roiImg.png', img)
     cv2.waitKey(0)
