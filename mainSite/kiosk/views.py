@@ -35,15 +35,23 @@ def roiImage(request):
 
 def test(request):
 
-    result = [{'id': 0, 'position': (786, 547, 1004, 871.0), 'title': '치즈와퍼', 'price': '4100'}
-        , {'id': 1, 'position': (57, 198, 286, 538.5), 'title': '불고기와퍼', 'price': '3500'}
-        , {'id': 2, 'position': (422, 199, 645, 536.5), 'title': '통새우와퍼주니어', 'price': '4600'}
-        , {'id': 3, 'position': (64, 903, 290, 1246.5), 'title': '킹치킨버거', 'price': '2800'}
-        , {'id': 4, 'position': (54, 545, 298, 908.0), 'title': '바비큐킹치킨버거', 'price': '4300'}
-        , {'id': 5, 'position': (418, 545, 667, 908.0), 'title': '비프슈림프버거', 'price': '5600'}
-        , {'id': 6, 'position': (768, 901, 1008, 1252.0), 'title': '통새우슈림프버거', 'price': '4700'}
-        , {'id': 7, 'position': (769, 193, 1010, 547.0), 'title': '잔망루피슈림프버거', 'price': '4400'}
-        , {'id': 8, 'position': (380, 879, 713, 1290.0), 'title': '롱치킨버거', 'price': '4200'}]
+    result = [{'id': 0, 'position': (786, 547, 1004, 871.0), 'title': '아메리카노', 'price': '5000'}
+        , {'id': 1, 'position': (57, 198, 286, 538.5), 'title': '카페라떼', 'price': '5500'}
+        , {'id': 2, 'position': (422, 199, 645, 536.5), 'title': '카푸치노', 'price': '5500'}
+        , {'id': 3, 'position': (64, 903, 290, 1246.5), 'title': '헤이오트라떼', 'price': '6300'}
+        , {'id': 4, 'position': (54, 545, 298, 908.0), 'title': '카라멜라떼마끼아또', 'price': '6300'}
+        , {'id': 5, 'position': (418, 545, 667, 908.0), 'title': '바닐라라떼마끼아또', 'price': '6300'}
+        , {'id': 6, 'position': (768, 901, 1008, 1252.0), 'title': '카페모카', 'price': '6000'}
+        , {'id': 7, 'position': (769, 193, 1010, 547.0), 'title': '아메리카노', 'price': '4500'}]
+    # result = [{'id': 0, 'position': (786, 547, 1004, 871.0), 'title': '치즈와퍼', 'price': '4100'}
+    #     , {'id': 1, 'position': (57, 198, 286, 538.5), 'title': '불고기와퍼', 'price': '3500'}
+    #     , {'id': 2, 'position': (422, 199, 645, 536.5), 'title': '통새우와퍼주니어', 'price': '4600'}
+    #     , {'id': 3, 'position': (64, 903, 290, 1246.5), 'title': '킹치킨버거', 'price': '2800'}
+    #     , {'id': 4, 'position': (54, 545, 298, 908.0), 'title': '바비큐킹치킨버거', 'price': '4300'}
+    #     , {'id': 5, 'position': (418, 545, 667, 908.0), 'title': '비프슈림프버거', 'price': '5600'}
+    #     , {'id': 6, 'position': (768, 901, 1008, 1252.0), 'title': '통새우슈림프버거', 'price': '4700'}
+    #     , {'id': 7, 'position': (769, 193, 1010, 547.0), 'title': '잔망루피슈림프버거', 'price': '4400'}
+    #     , {'id': 8, 'position': (380, 879, 713, 1290.0), 'title': '롱치킨버거', 'price': '4200'}]
 
     resultString = ""
 
@@ -79,6 +87,11 @@ def kakaoApi(request):
     files = [
         ('image', (f'{imgname}', open(settings.MEDIA_ROOT+f'/{imgname}', 'rb'), 'image/png'))
     ]
+
+    imgfile = cv2.cvtColor(imgfile, cv2.COLOR_BGR2GRAY)
+    cv2.imshow('Original', imgfile)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
     headers = {
         'x-api-key': 'c5931d5912f0137ea003419c3ee4de6b',
@@ -200,12 +213,14 @@ def roi(request):
     img = cv2.imread(settings.MEDIA_ROOT+f'/kiosk.png')
 
     # (x, y), (w, h) = (54, 545), (244, 242)
-    (x, y), (w, h) = (407, 947), (430, 270)
-    # leftX: 407, leftY: 947, rightX: 684, rightY: 1166.0
+    # 버거킹 햄버거
+    # (x, y), (w, h) = (407, 947), (430, 270)
+    # 파스쿠찌
+    (x, y), (w, h) = (550, 600), (200, 150)
     roi = img[y:y + h, x:x + w]
 
     cv2.rectangle(roi, (0, 0), (h - 1, w - 1), (56, 185, 247), -1)
-    # cv2.imshow("img", img)
+    cv2.imshow("img", img)
     cv2.imwrite('static/images/roiImg.png', img)
     cv2.waitKey(0)
     cv2.destroyAllWindows()

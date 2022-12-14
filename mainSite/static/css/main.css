@@ -15,14 +15,14 @@ a {
   line-height: 50vh;
 }
 #btn1 {
-  background: #fcc;
+  background: #00FF00;
   top: 0%;
   left: 0%;
   width: 100%;
   bottom: 50%;
 }
 #btn2 {
-  background: #fcf;
+  background: #FF00FF;
   top: 50%;
   width: 100%;
   bottom: 0%;
